@@ -39,75 +39,51 @@ window.addEventListener('DOMContentLoaded', function(){
     // Timer 
 
     let deadLine = '2019-04-13';
+    
+        function getTimeRemaninig(endtime) {
+            let t = Date.parse(endtime) - Date.parse(new Date()),
+                seconds = Math.floor((t / 1000) % 60).toString(),
+                minutes = Math.floor((t / 1000 / 60) % 60).toString(),
+                hours = Math.floor(t / 1000 / 60 / 60).toString();
 
-    function getTimeRamaining(endtime){
-        let t = Date.parse(endtime) - Date.parse(new Date()),
-            seconds = Math.floor((t/1000)% 60),
-            minutes = Math.floor((t/1000/60)% 60),
-            // hours = Math.floor((t/(1000*60*60))),
-            hours = Math.floor((t/1000/60)% 24),
-            days = Math.floor((t/(1000*60*60*24)));  
-
-            return {
-                'total' : t,
-                'hours' : hours,
-                'minutes' : minutes,
-                'seconds' : seconds, 
-                'days' : days
-            };
-    }
-
-    function setClock(id, endtime) {
-        let timer  = document.getElementById(id),
-            hours = timer.querySelector('.hours'),
-            minutes = timer.querySelector('.minutes'),
-            seconds = timer.querySelector('.seconds'),
-            days = timer.querySelector('.days'),
-            timeInterval = setInterval(updateClock, 1000);
-
-        function updateClock () {
-            let t = getTimeRamaining(endtime),
-                // hours.textContent = t.hours;
-                // minutes.textContent = t.minutes;
-                // seconds.textContent = t.seconds;
-                // days.textContent = t.days;
-
-                // if (t.total <= 0) {
-                //     clearInterval(timeInterval);
-                // }
-
-
-
-            //////////////////////////////////
-
-
-                h = t.hours.toString(),
-                m = t.minutes.toString(),
-                s = t.seconds.toString(),
-                d = t.days.toString();
-
-            if (
-                t.total <= 0 &&
-                t.hours <= 0 &&
-                t.minutes <= 0 &&
-                t.seconds <= 0 &&
-                t.days <= 0
-            ) {
-                hours.textContent = "00";
-                minutes.textContent = "00";
-                seconds.textContent = "00";
-                days.textContent = "00";
-                clearInterval(timeInterval);
-            } else {
-                hours.textContent = h.length < 2 ? `0${h}` : h;
-                minutes.textContent = m.length < 2 ? `0${m}` : m;
-                seconds.textContent = s.length < 2 ? `0${s}` : s;
-                days.textContent = d.length < 2 ? `0${d}` : d;
-            }
+        function twoLetter(arg) {
+          if (arg.length < 2) {
+                arg = '0' + arg;
+          } return arg;
         }
-    }
 
-    setClock('timer', deadLine);
+    return {
+      'total': t,
+      'hours': twoLetter(hours),
+      'minutes': twoLetter(minutes),
+      'seconds': twoLetter(seconds)
+    };
+  }
+    
+        function setClock(id, endtime) {
+            let timer = document.getElementById(id),
+                hours = timer.querySelector('.hours'),
+                minutes = timer.querySelector('.minutes'),
+                seconds = timer.querySelector('.seconds'),
+                timeInterval = setInterval(updateClock, 1000);
+        
+            function updateClock() {
+              let t = getTimeRemaining(endtime);
+        
+              hours.textContent = t.hours;
+              minutes.textContent = t.minutes;
+              seconds.textContent = t.seconds;
+        
+        
+              if (t.total <= 0) {
+                hours.textContent = '00';
+                minutes.textContent = '00';
+                seconds.textContent = '00';
+                clearInterval(timeInterval);
+              }
+            }
+          }
+          setClock('timer', deadline);
 
     body.addEventListener("click", e => {
         let target = e.target;
@@ -122,36 +98,6 @@ window.addEventListener('DOMContentLoaded', function(){
         }
 
     // MODAL 
-
-    // let more = document.querySelector('.more'),
-    //     descriptionBtn = document.querySelectorAll('.description-btn'),
-    //     overlay = document.querySelector('.overlay'),
-    //     close = document.querySelector('.popup-close');
-
-    // more.addEventListener('click', function(){
-    //     overlay.style.display = 'block';
-    //     this.classList.add('more-splash');
-    //     document.body.style.overflow = 'hidden';
-    // });
-
-    // descriptionBtn[0].addEventListener('click', function(){
-    //     overlay.style.display = 'block';
-    //     this.classList.add('more-splash');
-    //     document.body.style.overflow = 'hidden';
-    // });
-
-    // close.addEventListener('click', function(){
-    //     overlay.style.display = 'none';
-    //     descriptionBtn.classList.remove('more-splash');
-    //     document.body.style.overflow = '';
-    // });
-
-    // close.addEventListener('click', function(){
-    //     overlay.style.display = 'none';
-    //     more.classList.remove('more-splash');
-    //     document.body.style.overflow = '';
-    // });
-
 
     const overlay = document.querySelector(".overlay");
 
@@ -185,79 +131,74 @@ window.addEventListener('DOMContentLoaded', function(){
         succes: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так :(' 
     };
-
-    let form = document.querySelector(".main-form"),
+  
+    let mainForm = document.querySelector('.main-form'),
         contactForm = document.querySelector("#form"),
-        input = document.getElementsByTagName("input"),
-        statusMessage = document.createElement("div");
-
-    statusMessage.classList.add("status");
-
-    function sendForm(elem) {
-        elem.addEventListener("submit", function (e) {
-            e.preventDefault();
-            elem.appendChild(statusMessage);
-
-            let formData = new FormData(elem);
-
-            function postData(data) {
-                return new Promise(function (resolve, reject) {
-                    let request = new XMLHttpRequest();
-
-                    request.open("POST", "server.php");
-
-                    request.setRequestHeader(
-                        "Content-Type",
-                        "application/json; charset=utf-8"
-                    );
-
-                    request.onreadystatechange = function () {
-                        if (request.readyState < 4) {
-                            resolve();
-                        } else if (request.readyState === 4) {
-                            if (request.status == 200 && request.status < 3) {
-                                resolve();
-                                // statusMessage.textContent = message.success;
-                            } else {
-                                reject();
-                            }
-                        }
-                    };
-                    request.send(data);
-                });
-            } // End postData
-
-            function clearInputs() {
-                [...input].forEach(elem => (elem.value = ""));
-            }
-            postData(formData)
-                .then(() => (statusMessage.innerHTML = message.loading))
-                .then(() => (statusMessage.innerHTML = message.success))
-                .catch(() => (statusMessage.innerHTML = message.failure))
-                .then(clearInputs);
-        });
+        statusMessage = document.createElement('div');
+  
+    statusMessage.classList.add('status');
+  
+    function sendForm(form) {
+      let input = form.getElementsByTagName('input');
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+        let formData = new FormData(form);
+  
+  
+        function postData(data) {
+          return new Promise(function (resolve, reject) {
+            let request = new XMLHttpRequest();
+  
+            request.open("POST", "server.php");
+  
+            request.setRequestHeader(
+              "Content-Type",
+              "application/json; charset=utf-8"
+            );
+            let obj = {};
+            data.forEach(function (value, key) {
+              obj[key] = value;
+            });
+            let json = JSON.stringify(obj);
+            request.onreadystatechange = function () {
+              if (request.readyState < 4) {
+                resolve();
+              } else if (request.readyState === 4) {
+                if (request.status == 200 && request.status < 3) {
+                  resolve();
+                } else {
+                  reject();
+                }
+              }
+            };
+            request.send(json);
+          });
+        } // End postData
+        function clearInputs() {
+          for (let i = 0; i < input.length; i++) {
+            input[i].value = "";
+          }
+        }
+        postData(formData)
+          .then(() => (statusMessage.innerHTML = message.loading))
+          .then(() => (statusMessage.innerHTML = message.success))
+          .catch(() => (statusMessage.innerHTML = message.failure))
+          .then(clearInputs);
+      });
     }
-
-    sendForm(form);
+    sendForm(mainForm);
     sendForm(contactForm);
-
-    // Validation number phone
-
-    const inputsPhone = document.querySelectorAll('input[name="phone"]'),
-        inputsCounter = document.querySelectorAll('.counter-block-input');
-
-    // function onlyNumber(input) {
-    //     input.onkeydown = function () {
-    //         return (this.value = this.value.replace(/[^0-9]/g, ""));
-    //     };
-    // }
+  
+    //Номер телефона
+    const inputsPhone = document.querySelectorAll('input[name="phone"]');
+  
     function onlyNumber(input) {
-        input.onkeydown = function () {
-            return (this.value = this.value.replace(/[^0-9]/g, ""));
-        };
+      input.onkeyup = function () {
+        return (this.value = this.value.replace(/[^0-9,+]/g, ""));
+      };
     }
     [...inputsPhone].forEach(elem => onlyNumber(elem));
-    [...inputsCounter].forEach(elem => onlyNumber(elem));
 
     // Slider 
 
@@ -280,9 +221,7 @@ window.addEventListener('DOMContentLoaded', function(){
         }
 
         slides.forEach((item) => item.style.display = 'none');
-        // for (let i = 0; i < slides.length; i++){
-        //     slides[i].style.display = 'none';
-        // }
+        
         dots.forEach((item) => item.classList.remove('dot-active'));
 
         slides[slideIndex - 1].style.display = 'block';
@@ -326,38 +265,6 @@ window.addEventListener('DOMContentLoaded', function(){
         total = 0;
 
         totalValue.innerHTML = 0;
-
-        // persons.addEventListener('change', function(){
-        //     personsSum = +this.value;
-        //     total = (daysSum + personsSum)* 4000;
-
-        //     if(restDays.value == '') {
-        //         totalValue.innerHTML = 0;
-        //     } else {
-        //         totalValue.innerHTML = total;
-        //     }
-        // });
-
-        // restDays.addEventListener('change', function(){
-        //     daysSum = +this.value;
-        //     total = (daysSum + personsSum)* 4000;
-
-        //     if(persons.value == '') {
-        //         totalValue.innerHTML = 0;
-        //     } else {
-        //         totalValue.innerHTML = total;
-        //     }
-        // });
-
-        // place.addEventListener('change', function(){
-        //     if (restDays.value == '' || persons.value == '') {
-        //         totalValue.innerHTML = 0;
-        //     } else {
-        //         let a = total; 
-        //         totalValue.innerHTML = a * this.options[this.selectedIndex].value;
-        //     }
-        // });
-
 
     function calcTotal() {
         let person = +persons.value,

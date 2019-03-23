@@ -1,0 +1,23 @@
+{
+  "name": "webpack-yoga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stormy377/Webpack_Yoga.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stormy377/Webpack_Yoga/issues"
+  },
+  "homepage": "https://github.com/stormy377/Webpack_Yoga#readme",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
