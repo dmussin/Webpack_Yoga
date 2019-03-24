@@ -167,18 +167,10 @@ module.exports = calc;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function form() {
   var message = {
     loading: 'Загрузка...',
-    succes: 'Спасибо! Скоро мы с вами свяжемся',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
     failure: 'Что-то пошло не так :('
   };
   var mainForm = document.querySelector('.main-form'),
@@ -240,16 +232,14 @@ function form() {
   sendForm(mainForm);
   sendForm(contactForm); //Номер телефона
 
-  var inputsPhone = document.querySelectorAll('input[name="phone"]');
-
-  function onlyNumber(input) {
-    input.onkeyup = function () {
-      return this.value = this.value.replace(/[^0-9,+]/g, "");
-    };
-  }
-
-  _toConsumableArray(inputsPhone).forEach(function (elem) {
-    return onlyNumber(elem);
+  var inputTel = document.querySelectorAll('.popup-form__input, .form__input');
+  inputTel.forEach(function (elem) {
+    elem.addEventListener('focus', function () {
+      if (!/^\+\d*$/.test(elem.value)) elem.value = '+';
+    });
+    elem.addEventListener('keypress', function (e) {
+      if (!/\d/.test(e.key)) e.preventDefault();
+    });
   });
 }
 
@@ -265,31 +255,41 @@ module.exports = form;
 /***/ (function(module, exports) {
 
 function modal() {
-  var overlay = document.querySelector(".overlay");
-
-  function showModal(modBtn) {
-    overlay.style.display = "block";
-    info.classList.add("more-splash");
-    document.body.style.overflow = "hidden";
-  }
-
-  function hideModal(modCloseBtn) {
-    overlay.style.display = "none";
-    info.classList.remove("more-splash");
-    document.body.style.overflow = "";
-  }
-
-  if (target && target.classList.contains("more")) {
-    showModal(target);
-  }
-
-  if (target && target.classList.contains("popup-close")) {
-    hideModal(target);
-  }
-
-  if (target && target.classList.contains("description-btn")) {
-    showModal(target);
-  }
+  // const overlay = document.querySelector(".overlay");
+  // function showModal(modBtn) {
+  //     overlay.style.display = "block";
+  //     info.classList.add("more-splash");
+  //     document.body.style.overflow = "hidden";
+  // }
+  // function hideModal(modCloseBtn) {
+  //     overlay.style.display = "none";
+  //     info.classList.remove("more-splash");
+  //     document.body.style.overflow = "";
+  // }
+  // if (target && target.classList.contains("more")) {
+  //     showModal(target);
+  // }
+  // if (target && target.classList.contains("popup-close")) {
+  //     hideModal(target);
+  // }
+  // if (target && target.classList.contains("description-btn")) {
+  //     showModal(target);
+  // }
+  var more = document.querySelectorAll('.more, .description-btn'),
+      overlay = document.querySelector('.overlay'),
+      close = document.querySelector('.popup-close');
+  more.forEach(function (item) {
+    item.addEventListener('click', function () {
+      overlay.style.display = 'block';
+      this.classList.add('more-splash');
+      document.body.style.overflow = 'hidden';
+    });
+    close.addEventListener('click', function () {
+      overlay.style.display = 'none';
+      item.classList.remove('more-splash');
+      document.body.style.overflow = '';
+    });
+  });
 }
 
 module.exports = modal;
@@ -417,7 +417,7 @@ module.exports = tabs;
 /***/ (function(module, exports) {
 
 function timer() {
-  var deadline = '2019-04-13';
+  var deadline = '2019-04-13T00:00';
 
   function getTimeRemaining(endtime) {
     var t = Date.parse(endtime) - Date.parse(new Date()),

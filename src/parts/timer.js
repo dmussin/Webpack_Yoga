@@ -1,7 +1,6 @@
-
 function timer() {
 
-  let deadline = '2019-04-13';
+  let deadline = '2019-04-13T00:00';
 
 
   function getTimeRemaining(endtime) {

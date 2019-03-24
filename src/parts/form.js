@@ -2,7 +2,7 @@
 function form() {
     let message = {
         loading: 'Загрузка...',
-        succes: 'Спасибо! Скоро мы с вами свяжемся',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так :(' 
     };
   
@@ -65,13 +65,12 @@ function form() {
     sendForm(contactForm);
   
     //Номер телефона
-    const inputsPhone = document.querySelectorAll('input[name="phone"]');
-  
-    function onlyNumber(input) {
-      input.onkeyup = function () {
-        return (this.value = this.value.replace(/[^0-9,+]/g, ""));
-      };
-    }
-    [...inputsPhone].forEach(elem => onlyNumber(elem));
+    let inputTel = document.querySelectorAll('.popup-form__input, .form__input');
+    inputTel.forEach(function(elem){
+        elem.addEventListener('focus', () => {if(!/^\+\d*$/.test(elem.value)) elem.value = '+';});
+        elem.addEventListener('keypress', e => {if(!/\d/.test(e.key)) e.preventDefault();});
+    });
+
+   
   }
   module.exports = form;
