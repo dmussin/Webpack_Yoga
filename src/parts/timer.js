@@ -8,7 +8,6 @@ function timer() {
     let t = Date.parse(endtime) - Date.parse(new Date()),
         seconds = Math.floor((t / 1000) % 60).toString(),
         minutes = Math.floor((t / 1000 / 60) % 60).toString(),
-        // hours = Math.floor(t / 1000 / 60 / 60).toString();
         hours = Math.floor((t / 1000 / 60 / 60) % 24).toString(),
 		    days = Math.floor((t / (1000 * 60 * 60 * 24))).toString();
 

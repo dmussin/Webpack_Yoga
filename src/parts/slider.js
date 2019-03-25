@@ -18,9 +18,7 @@ function slider() {
         }
 
         slides.forEach((item) => item.style.display = 'none');
-        // for (let i = 0; i < slides.length; i++){
-        //     slides[i].style.display = 'none';
-        // }
+       
         dots.forEach((item) => item.classList.remove('dot-active'));
 
         slides[slideIndex - 1].style.display = 'block';

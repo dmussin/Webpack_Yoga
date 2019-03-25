@@ -10,9 +10,12 @@ more.forEach(function(item){
         this.classList.add('more-splash');
         document.body.style.overflow = 'hidden';
     });
-    close.addEventListener('click', () => {
+
+close.addEventListener('click', () => {
+    if (document.querySelector('.status') !== null) {
+        document.querySelector('.status').innerHTML = '';
+    }
         overlay.style.display = 'none';
-        item.classList.remove('more-splash');
         document.body.style.overflow = '';
     });
 });

@@ -230,9 +230,9 @@ function form() {
   }
 
   sendForm(mainForm);
-  sendForm(contactForm); //Номер телефона
+  sendForm(contactForm); //Phone number
 
-  var inputTel = document.querySelectorAll('.popup-form__input, .form__input');
+  var inputTel = document.querySelectorAll('.popup-form__input, .form__input', '.form__input');
   inputTel.forEach(function (elem) {
     elem.addEventListener('focus', function () {
       if (!/^\+\d*$/.test(elem.value)) elem.value = '+';
@@ -265,8 +265,11 @@ function modal() {
       document.body.style.overflow = 'hidden';
     });
     close.addEventListener('click', function () {
+      if (document.querySelector('.status') !== null) {
+        document.querySelector('.status').innerHTML = '';
+      }
+
       overlay.style.display = 'none';
-      item.classList.remove('more-splash');
       document.body.style.overflow = '';
     });
   });
@@ -303,10 +306,7 @@ function slider() {
 
     slides.forEach(function (item) {
       return item.style.display = 'none';
-    }); // for (let i = 0; i < slides.length; i++){
-    //     slides[i].style.display = 'none';
-    // }
-
+    });
     dots.forEach(function (item) {
       return item.classList.remove('dot-active');
     });
@@ -403,8 +403,7 @@ function timer() {
     var t = Date.parse(endtime) - Date.parse(new Date()),
         seconds = Math.floor(t / 1000 % 60).toString(),
         minutes = Math.floor(t / 1000 / 60 % 60).toString(),
-        // hours = Math.floor(t / 1000 / 60 / 60).toString();
-    hours = Math.floor(t / 1000 / 60 / 60 % 24).toString(),
+        hours = Math.floor(t / 1000 / 60 / 60 % 24).toString(),
         days = Math.floor(t / (1000 * 60 * 60 * 24)).toString();
 
     function addZero(arg) {
