@@ -1542,8 +1542,7 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! es6-promise */ "../node_modules/es6-promise/dist/es6-promise.js").polyfill();
-
+//require('es6-promise').polyfill();
 __webpack_require__(/*! formdata-polyfill */ "../node_modules/formdata-polyfill/formdata.min.js");
 
 window.addEventListener('DOMContentLoaded', function () {
