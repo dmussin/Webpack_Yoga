@@ -1,40 +1,33 @@
-'use strict';
 
-let path = require('path');
-//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
+const path = require('path');
 
 module.exports = {
-    mode: "development",
-    context: path.resolve(__dirname, "src/"),
-    entry: "./index.js",
-    output: {
-      filename: 'bundle.js',
-      path: __dirname + "/dist/js"
-    },
-    watch: true,
-  
-    devtool: "source-map",
+  entry: ['@babel/polyfill','./src/index.js'],
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'public/js')
+  },
+  mode: 'development',
+  watch: true,
+  devtool: 'source-map',
   
     module: {
       rules: [
         {
           test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules/,
           use: {
-            loader: "babel-loader?optional[]=runtime", 
+            loader: 'babel-loader',
             options: {
-              presets: [
-                //["@babel/preset-env", {
-                ["@babel/env", {
-                  targets: {
-                    edge: "17",
-                    firefox: "60",
-                    chrome: "67",
-                    safari: "11.1",
-                    ie: "11"
+              'presets':[
+                [
+                  "@babel/preset-env",
+                  {
+                    "targets":{
+                      "browsers": ['last 2 versions', "ie >= 11"]
+                    }
                   }
-                }]
+                ]
               ],
               plugins: ["es6-promise"]
             }
@@ -42,4 +35,4 @@ module.exports = {
         }
       ]
     }
-  };
+  }
