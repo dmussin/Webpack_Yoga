@@ -65,12 +65,14 @@ function form() {
     sendForm(contactForm);
   
     //Phone number
-    let inputTel = document.querySelectorAll('.popup-form__input, .form__input', '.form__input');
-    inputTel.forEach(function(elem){
-        elem.addEventListener('focus', () => {if(!/^\+\d*$/.test(elem.value)) elem.value = '+';});
-        elem.addEventListener('keypress', e => {if(!/\d/.test(e.key)) e.preventDefault();});
-    });
+  const inputTel = document.querySelectorAll('.popup-form__input, .form__input', '.form__input');
 
+  function onlyNumber(input) {
+    input.onkeyup = function () {
+      return (this.value = this.value.replace(/[^0-9,+]/g, ""));
+    };
+  }
+  [...inputTel].forEach(elem => onlyNumber(elem));
    
   }
   module.exports = form;

@@ -2,38 +2,37 @@
 const path = require('path');
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
-    entry: './index.js',
+    entry: ['@babel/polyfill','./src/index.js'],
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public')
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'public/js')
     },
-    mode: 'development', 
+    mode: 'development',
     watch: true,
-    devtool: 'source-map', 
-
+    devtool: 'source-map',
+  
     module: {
-        rules:[
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        'presets':[
-                            [
-                                "@babel/preset-env",
-                                {
-                                    "targets": {
-                                        "browsers":
-                                        ['last 2 versions', "ie >= 11"]
-                                    }
-                                }
-                            ]
-                        ]
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              'presets':[
+                [
+                  "@babel/preset-env",
+                  {
+                    "targets":{
+                      "browsers": ['last 2 versions', "ie >= 11"]
                     }
-                }
+                  }
+                ]
+              ],
+              'plugins': ["es6-promise"]
             }
-        ]
+          }
+        }
+      ]
     }
-}
+  }
