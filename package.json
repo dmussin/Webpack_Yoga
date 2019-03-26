@@ -1,7 +1,6 @@
 {
   "name": "webpack-yoga",
   "version": "1.0.0",
-  "description": "",
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -28,5 +27,8 @@
     "formdata-polyfill": "^3.0.17",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
-  }
+  },
+  "dependencies": {},
+  "keywords": [],
+  "description": ""
 }

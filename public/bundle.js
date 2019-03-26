@@ -11334,38 +11334,47 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 /***/ (function(module, exports) {
 
 function calc() {
-  var persons = document.querySelectorAll('.counter-block-input')[0],
-      restDays = document.querySelectorAll('.counter-block-input')[1],
-      place = document.getElementById('select'),
-      totalValue = document.getElementById('total'),
-      counter = document.querySelector('.counter'),
-      personsSum = 0,
-      daysSum = 0,
-      total = 0;
-  totalValue.innerHTML = 0;
-
-  function calcTotal() {
-    var person = +persons.value,
-        days = +restDays.value,
-        city = +place.value;
-
-    if (person == '' || days == '' || person == 0 || days == 0) {
-      totalValue.textContent = 0;
-    } else {
-      totalValue.textContent = (days + person) * 4000 * city;
-    }
-  }
-
-  counter.addEventListener('change', function (event) {
-    var target = event.target;
-
-    if (target && target.classList.contains('counter-block-input')) {
-      calcTotal();
-    }
-
-    if (target && target.options) {
-      calcTotal();
-    }
+  // let persons = document.querySelectorAll('.counter-block-input')[0],
+  //     restDays = document.querySelectorAll('.counter-block-input')[1],
+  //     place = document.getElementById('select'),
+  //     totalValue = document.getElementById('total'),
+  //     counter = document.querySelector('.counter'),
+  //     personsSum = 0,
+  //     daysSum = 0,
+  //     total = 0;
+  //     totalValue.innerHTML = 0;
+  // function calcTotal() {
+  //     let person = +persons.value,
+  //         days = +restDays.value,
+  //         city = +place.value;
+  //     if ((person == '' || days == '') || (person == 0 || days == 0)) {
+  //         totalValue.textContent = 0;
+  //     } else {
+  //         totalValue.textContent = (days + person) * 4000 * city;
+  //     }
+  // }
+  // counter.addEventListener('input', function (event) {
+  //     let target = event.target;
+  //     if (target && target.classList.contains('counter-block-input')) {
+  //         calcTotal();
+  //     }
+  //     if (target && target.options) {
+  //         calcTotal();
+  //     }
+  // });
+  var selectCalc = document.querySelector('#select'),
+      inputCalc = document.querySelectorAll('.counter-block-input'),
+      totalValue = document.querySelector('#total');
+  totalValue.textContent = 0;
+  selectCalc.addEventListener('change', function () {
+    var res = Math.round(+inputCalc[0].value * +inputCalc[1].value * +selectCalc.value * 4000);
+  });
+  inputCalc.forEach(function (elem) {
+    elem.addEventListener('input', function (e) {
+      //keyup
+      this.value = this.value.replace(/[^0-9]/g, '');
+      var res = Math.round(+inputCalc[0].value * +inputCalc[1].value * +selectCalc.value * 4000);
+    });
   });
 }
 

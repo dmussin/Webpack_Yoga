@@ -23,7 +23,7 @@ function calc() {
         }
     }
 
-    counter.addEventListener('input', function (event) {
+    counter.addEventListener('change', function (event) {
         let target = event.target;
 
         if (target && target.classList.contains('counter-block-input')) {
@@ -33,6 +33,7 @@ function calc() {
             calcTotal();
         }
     });
+
 }
 
 module.exports = calc;
