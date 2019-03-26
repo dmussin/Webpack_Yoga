@@ -23,6 +23,7 @@
     "@babel/preset-env": "^7.4.2",
     "babel-loader": "^8.0.5",
     "babel-plugin-es6-promise": "^1.1.1",
+    "core-js": "^2.6.5",
     "es6-promise": "^4.2.6",
     "formdata-polyfill": "^3.0.17",
     "webpack": "^4.29.6",
